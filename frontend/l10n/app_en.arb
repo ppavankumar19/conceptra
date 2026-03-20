@@ -1,0 +1,321 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Conceptra",
+  "@appTitle": { "description": "Application title" },
+
+  "appTagline": "Think. Visualize. Master.",
+  "@appTagline": { "description": "App tagline" },
+
+  "loginTitle": "Welcome Back",
+  "@loginTitle": {},
+
+  "loginSubtitle": "Sign in to continue learning",
+  "@loginSubtitle": {},
+
+  "emailLabel": "Email",
+  "@emailLabel": {},
+
+  "emailHint": "Enter your email address",
+  "@emailHint": {},
+
+  "passwordLabel": "Password",
+  "@passwordLabel": {},
+
+  "passwordHint": "Enter your password",
+  "@passwordHint": {},
+
+  "loginButton": "Sign In",
+  "@loginButton": {},
+
+  "loginWithGoogle": "Continue with Google",
+  "@loginWithGoogle": {},
+
+  "noAccountPrompt": "Don't have an account?",
+  "@noAccountPrompt": {},
+
+  "registerLink": "Register",
+  "@registerLink": {},
+
+  "registerTitle": "Create Account",
+  "@registerTitle": {},
+
+  "registerSubtitle": "Join Conceptra and start learning",
+  "@registerSubtitle": {},
+
+  "displayNameLabel": "Display Name",
+  "@displayNameLabel": {},
+
+  "displayNameHint": "Enter your full name",
+  "@displayNameHint": {},
+
+  "confirmPasswordLabel": "Confirm Password",
+  "@confirmPasswordLabel": {},
+
+  "confirmPasswordHint": "Re-enter your password",
+  "@confirmPasswordHint": {},
+
+  "classGradeLabel": "Class Grade",
+  "@classGradeLabel": {},
+
+  "selectGrade": "Select your class",
+  "@selectGrade": {},
+
+  "registerButton": "Create Account",
+  "@registerButton": {},
+
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": {},
+
+  "loginLink": "Sign In",
+  "@loginLink": {},
+
+  "homeTitle": "Conceptra",
+  "@homeTitle": {},
+
+  "modulesTab": "Modules",
+  "@modulesTab": {},
+
+  "historyTab": "History",
+  "@historyTab": {},
+
+  "progressTab": "Progress",
+  "@progressTab": {},
+
+  "profileTab": "Profile",
+  "@profileTab": {},
+
+  "modulesTitle": "Explore Modules",
+  "@modulesTitle": {},
+
+  "searchModules": "Search modules...",
+  "@searchModules": {},
+
+  "filterAll": "All",
+  "@filterAll": {},
+
+  "filterPhysics": "Physics",
+  "@filterPhysics": {},
+
+  "filterMathematics": "Mathematics",
+  "@filterMathematics": {},
+
+  "filterChemistry": "Chemistry",
+  "@filterChemistry": {},
+
+  "filterBasic": "Basic",
+  "@filterBasic": {},
+
+  "filterIntermediate": "Intermediate",
+  "@filterIntermediate": {},
+
+  "filterAdvanced": "Advanced",
+  "@filterAdvanced": {},
+
+  "difficultyBasic": "Basic",
+  "@difficultyBasic": {},
+
+  "difficultyIntermediate": "Intermediate",
+  "@difficultyIntermediate": {},
+
+  "difficultyAdvanced": "Advanced",
+  "@difficultyAdvanced": {},
+
+  "classRange": "Class {min}-{max}",
+  "@classRange": {
+    "placeholders": {
+      "min": { "type": "int" },
+      "max": { "type": "int" }
+    }
+  },
+
+  "startButton": "Start",
+  "@startButton": {},
+
+  "moduleDetailTitle": "Module Details",
+  "@moduleDetailTitle": {},
+
+  "parametersSection": "Parameters",
+  "@parametersSection": {},
+
+  "startSimulation": "Start Simulation",
+  "@startSimulation": {},
+
+  "simulationTitle": "Simulation",
+  "@simulationTitle": {},
+
+  "calculateButton": "Calculate",
+  "@calculateButton": {},
+
+  "resetButton": "Reset",
+  "@resetButton": {},
+
+  "resultSection": "Result",
+  "@resultSection": {},
+
+  "explanationSection": "How It Works",
+  "@explanationSection": {},
+
+  "graphTab": "Graph",
+  "@graphTab": {},
+
+  "simulationTab": "Simulation",
+  "@simulationTab": {},
+
+  "formulaLabel": "Formula",
+  "@formulaLabel": {},
+
+  "substitutionLabel": "Calculation",
+  "@substitutionLabel": {},
+
+  "conclusionLabel": "Conclusion",
+  "@conclusionLabel": {},
+
+  "historyTitle": "My History",
+  "@historyTitle": {},
+
+  "emptyHistory": "No simulation history yet",
+  "@emptyHistory": {},
+
+  "emptyHistorySubtitle": "Start a simulation to see your history here",
+  "@emptyHistorySubtitle": {},
+
+  "progressTitle": "My Progress",
+  "@progressTitle": {},
+
+  "totalSessions": "Total Sessions",
+  "@totalSessions": {},
+
+  "modulesCompleted": "Modules Completed",
+  "@modulesCompleted": {},
+
+  "masteryLabel": "Mastery",
+  "@masteryLabel": {},
+
+  "profileTitle": "Profile",
+  "@profileTitle": {},
+
+  "languageLabel": "Language",
+  "@languageLabel": {},
+
+  "themeLabel": "Theme",
+  "@themeLabel": {},
+
+  "lightTheme": "Light",
+  "@lightTheme": {},
+
+  "darkTheme": "Dark",
+  "@darkTheme": {},
+
+  "logoutButton": "Logout",
+  "@logoutButton": {},
+
+  "editProfileButton": "Edit Profile",
+  "@editProfileButton": {},
+
+  "saveButton": "Save",
+  "@saveButton": {},
+
+  "cancelButton": "Cancel",
+  "@cancelButton": {},
+
+  "offlineBanner": "You're offline — cached data shown",
+  "@offlineBanner": {},
+
+  "retryButton": "Retry",
+  "@retryButton": {},
+
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@errorGeneric": {},
+
+  "errorNetwork": "Network error. Check your connection.",
+  "@errorNetwork": {},
+
+  "errorAuth": "Authentication failed. Please login again.",
+  "@errorAuth": {},
+
+  "errorNotFound": "Module not found.",
+  "@errorNotFound": {},
+
+  "errorValidationEmail": "Please enter a valid email address",
+  "@errorValidationEmail": {},
+
+  "errorValidationPassword": "Password must be at least 8 characters",
+  "@errorValidationPassword": {},
+
+  "errorValidationPasswordMatch": "Passwords do not match",
+  "@errorValidationPasswordMatch": {},
+
+  "errorValidationName": "Name cannot be empty",
+  "@errorValidationName": {},
+
+  "errorValidationGrade": "Please select your class grade",
+  "@errorValidationGrade": {},
+
+  "loadingModules": "Loading modules...",
+  "@loadingModules": {},
+
+  "loadingSimulation": "Running simulation...",
+  "@loadingSimulation": {},
+
+  "loadingHistory": "Loading history...",
+  "@loadingHistory": {},
+
+  "loadingProgress": "Loading progress...",
+  "@loadingProgress": {},
+
+  "noModulesFound": "No modules found",
+  "@noModulesFound": {},
+
+  "noModulesFoundSubtitle": "Try adjusting your filters",
+  "@noModulesFoundSubtitle": {},
+
+  "sessionDate": "Session on {date}",
+  "@sessionDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
+  "resultValue": "Result: {value} {unit}",
+  "@resultValue": {
+    "placeholders": {
+      "value": { "type": "String" },
+      "unit": { "type": "String" }
+    }
+  },
+
+  "languageEnglish": "English",
+  "@languageEnglish": {},
+
+  "languageHindi": "Hindi",
+  "@languageHindi": {},
+
+  "languageTelugu": "Telugu",
+  "@languageTelugu": {},
+
+  "roleStudent": "Student",
+  "@roleStudent": {},
+
+  "roleTeacher": "Teacher",
+  "@roleTeacher": {},
+
+  "gradeClass": "Class {grade}",
+  "@gradeClass": {
+    "placeholders": {
+      "grade": { "type": "int" }
+    }
+  },
+
+  "simulationQueued": "Simulation saved offline. Will sync when connected.",
+  "@simulationQueued": {},
+
+  "syncComplete": "Offline sessions synced successfully.",
+  "@syncComplete": {},
+
+  "emptyProgress": "No progress data yet",
+  "@emptyProgress": {},
+
+  "emptyProgressSubtitle": "Complete simulations to track your progress",
+  "@emptyProgressSubtitle": {}
+}
