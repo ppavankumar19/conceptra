@@ -1,0 +1,63 @@
+name: conceptra
+description: Conceptra — Interactive Learning Through Visualization
+version: 1.0.0+1
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Auth
+  supabase_flutter: ^2.3.4
+
+  # State Management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.4
+
+  # HTTP
+  dio: ^5.4.1
+
+  # Local Storage (Offline)
+  hive_flutter: ^1.1.0
+
+  # Navigation
+  go_router: ^13.2.0
+
+  # Charts
+  fl_chart: ^0.67.0
+
+  # Secure Storage
+  flutter_secure_storage: ^9.0.0
+
+  # Utils
+  intl: ^0.20.2
+  uuid: ^4.3.3
+  connectivity_plus: ^6.0.3
+
+  # UI
+  shimmer: ^3.0.0
+  cached_network_image: ^3.3.1
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  riverpod_generator: ^2.3.11
+  build_runner: ^2.4.8
+  hive_generator: ^2.0.1
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
