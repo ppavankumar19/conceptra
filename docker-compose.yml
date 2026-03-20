@@ -1,0 +1,95 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Conceptra / EduViz — Full Stack Docker Compose
+# Run:  docker-compose up --build
+# Opens:  Frontend → http://localhost:3000   |   Backend API → http://localhost:8000
+# ─────────────────────────────────────────────────────────────────────────────
+
+version: "3.9"
+
+networks:
+  conceptra-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+
+services:
+  # ── PostgreSQL ──────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: conceptra-postgres
+    environment:
+      POSTGRES_DB: conceptra
+      POSTGRES_USER: conceptra
+      POSTGRES_PASSWORD: 2002
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - conceptra-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U conceptra -d conceptra"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # ── Redis ───────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: conceptra-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - conceptra-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  # ── Backend (FastAPI) ───────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: conceptra-backend
+    env_file:
+      - ./backend/.env
+    environment:
+      # Override localhost DB URL with Docker-internal hostname
+      DATABASE_URL: postgresql+asyncpg://conceptra:2002@postgres:5432/conceptra
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    networks:
+      - conceptra-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
+
+  # ── Frontend (Flutter Web + Nginx) ──────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.frontend
+    container_name: conceptra-frontend
+    ports:
+      - "3000:80"
+    networks:
+      - conceptra-network
+    depends_on:
+      - backend
+    restart: unless-stopped
