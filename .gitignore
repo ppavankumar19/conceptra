@@ -1,0 +1,198 @@
+# =============================================================
+# EduViz — .gitignore
+# =============================================================
+
+# -------------------------------------------------------------
+# Python / Backend
+# -------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+.env
+*.env
+!*.env.example
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# Test / coverage artefacts
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.cover
+.hypothesis/
+
+# Type checkers
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.pyre/
+
+# Ruff cache
+.ruff_cache/
+
+# Alembic
+# (keep migrations; ignore generated __pycache__ inside them)
+backend/alembic/versions/__pycache__/
+
+# -------------------------------------------------------------
+# Flutter / Dart / Frontend
+# -------------------------------------------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock          # Uncomment if you want to pin versions only in CI
+build/
+.dart_tool/
+
+# Flutter web build output
+frontend/build/
+
+# Android-specific
+*.apk
+*.aab
+local.properties
+.gradle/
+android/.gradle/
+android/local.properties
+android/key.properties
+
+# iOS-specific
+*.ipa
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+
+# macOS-specific
+macos/Flutter/GeneratedPluginRegistrant.swift
+
+# Windows-specific
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugin_registrant.h
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# -------------------------------------------------------------
+# Docker / Infrastructure
+# -------------------------------------------------------------
+.env.prod
+.env.staging
+*.override.yml
+
+# -------------------------------------------------------------
+# Secrets & Certificates
+# -------------------------------------------------------------
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+secrets/
+credentials.json
+service-account*.json
+
+# -------------------------------------------------------------
+# Claude Code
+# -------------------------------------------------------------
+.claude/
+
+# -------------------------------------------------------------
+# IDE / Editors
+# -------------------------------------------------------------
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json.example
+.idea/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+Session.vim
+.netrwhist
+tags
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+# -------------------------------------------------------------
+# OS / System files
+# -------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# -------------------------------------------------------------
+# Logs & Temporary files
+# -------------------------------------------------------------
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+*.orig
+
+# -------------------------------------------------------------
+# Node (if any tooling scripts are added)
+# -------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+.yarn/cache
+.yarn/unplugged
+
+# -------------------------------------------------------------
+# Kubernetes / Helm (generated / sensitive)
+# -------------------------------------------------------------
+infra/k8s/secrets/
+infra/k8s/*-secret.yaml
+infra/helm/*/charts/
+infra/helm/*/Chart.lock
