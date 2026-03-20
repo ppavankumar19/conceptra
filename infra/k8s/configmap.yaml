@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eduviz-config
+  namespace: eduviz
+  labels:
+    app.kubernetes.io/name: eduviz
+    app.kubernetes.io/component: config
+data:
+  ENVIRONMENT: "production"
+  LOG_LEVEL: "INFO"
+  ALLOWED_ORIGINS: "https://eduviz.app,https://www.eduviz.app"
+  POSTGRES_DB: "eduviz"
+  POSTGRES_HOST: "postgres-service"
+  POSTGRES_PORT: "5432"
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  APP_NAME: "EduViz"
+  API_V1_STR: "/api/v1"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+  REFRESH_TOKEN_EXPIRE_DAYS: "7"
+  MAX_CONNECTIONS_COUNT: "10"
+  MIN_CONNECTIONS_COUNT: "2"
