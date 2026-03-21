@@ -24,7 +24,12 @@ def upgrade() -> None:
     # ------------------------------------------------------------------
     # Enable pgcrypto for gen_random_uuid() if not already enabled
     # ------------------------------------------------------------------
-    op.execute('CREATE EXTENSION IF NOT EXISTS "pgcrypto"')
+    try:
+        op.execute('CREATE EXTENSION IF NOT EXISTS "pgcrypto"')
+    except Exception:
+        # Managed Postgres providers may disallow CREATE EXTENSION in app migrations.
+        # Supabase typically has pgcrypto available already.
+        pass
 
     # ------------------------------------------------------------------
     # user_profiles
