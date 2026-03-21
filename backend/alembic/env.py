@@ -54,6 +54,7 @@ try:
         parts = urlsplit(database_url)
         query = dict(parse_qsl(parts.query, keep_blank_values=True))
         query.setdefault("prepared_statement_cache_size", "0")
+        query.setdefault("statement_cache_size", "0")
         updated_query = urlencode(query)
         return urlunsplit((parts.scheme, parts.netloc, parts.path, updated_query, parts.fragment))
 
