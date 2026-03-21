@@ -19,6 +19,7 @@
 - [8. Health Checks & Monitoring](#8-health-checks--monitoring)
 - [9. Backup & Recovery](#9-backup--recovery)
 - [10. Troubleshooting](#10-troubleshooting)
+- [11. Production Incident Log (March 21, 2026)](#11-production-incident-log-march-21-2026)
 
 ---
 
@@ -570,5 +571,78 @@ docker stats
 ```
 
 ---
+
+## 11. Production Incident Log (March 21, 2026)
+
+This section records the production deployment issues fixed during the March 21, 2026 rollout (Vercel frontend + Render backend + Supabase DB/Auth).
+
+### Final Live Endpoints
+
+- Frontend: `https://conceptra-webapp.vercel.app`
+- Backend API base: `https://conceptra-api.onrender.com/api/v1`
+- Backend readiness: `https://conceptra-api.onrender.com/api/v1/health/ready`
+
+### What Was Fixed
+
+1. Vercel frontend build failure (`pubspec.yaml duplicate mapping key`)
+- Cause: `build.sh` appended a second `flutter:` block to `frontend/pubspec.yaml`.
+- Fix: removed pubspec mutation from `build.sh`.
+
+2. Flutter SDK mismatch on Vercel
+- Cause: build script used old Flutter while lockfile required newer SDK.
+- Fix: pinned compatible Flutter in build process and improved build script reliability.
+
+3. Render backend CORS mismatch
+- Cause: development-mode CORS only allowed localhost regex and ignored configured origins.
+- Fix: backend now always honors `ALLOWED_ORIGINS`; localhost regex remains extra in non-production.
+
+4. Supabase connection and pooler compatibility
+- Cause: incorrect DB URL format/parameters and pooler mode mismatch generated runtime failures.
+- Fixes:
+  - normalized DB URL to `postgresql+asyncpg://...`
+  - used Supabase IPv4 pooler session endpoint and SSL
+  - ensured asyncpg compatibility options for Supabase pooler flows
+
+5. Missing DB schema/data in Supabase
+- Cause: target `public` schema had no app tables, producing `/modules` 500 errors.
+- Fix:
+  - ran migrations against Supabase
+  - verified tables exist
+  - seeded simulation module data
+
+6. Render startup stability
+- Cause: backend container command hardcoded multiple workers, increasing startup race risk.
+- Fix: backend Docker startup changed to configurable workers with safe default (`WEB_CONCURRENCY=1`) and Render `PORT` support.
+
+### Final Required Runtime Configuration
+
+#### Render (`conceptra-api`)
+
+- `DATABASE_URL` (asyncpg + SSL + encoded password):
+  - `postgresql+asyncpg://<user>:<url-encoded-password>@<supabase-pooler-host>:5432/postgres?ssl=require`
+- `REDIS_URL`: Upstash/Redis URL
+- `ALLOWED_ORIGINS`:
+  - `https://conceptra-webapp.vercel.app,https://conceptra-webapp-git-master-pavan-kumar-s-projects-a55a3b6a.vercel.app,http://localhost:3000,http://localhost:8080`
+- `ENVIRONMENT=production`
+
+#### Supabase Auth
+
+- Site URL:
+  - `https://conceptra-webapp.vercel.app`
+- Redirect URLs:
+  - `http://localhost:3000/**` (optional local)
+  - `https://conceptra-webapp.vercel.app/**`
+  - `https://conceptra-webapp-git-master-pavan-kumar-s-projects-a55a3b6a.vercel.app/**`
+  - `io.supabase.conceptra://login-callback/` (mobile deep link)
+- Google OAuth redirect URI (Google Cloud Console):
+  - `https://lvgsombxkoedcgznqnge.supabase.co/auth/v1/callback`
+
+### Verification Checklist (Current)
+
+- `GET /api/v1/health` returns 200
+- `GET /api/v1/health/ready` returns DB/Redis `ok`
+- `OPTIONS /api/v1/modules` returns CORS headers for Vercel origin
+- `GET /api/v1/modules?page=1&page_size=20` returns 200 with module data
+- Google login redirects to Vercel domain (not localhost)
 
 *This deployment guide covers all supported deployment targets for Conceptra. Update it as new infrastructure options are added.*

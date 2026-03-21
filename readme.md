@@ -292,6 +292,36 @@ From the `frontend/` directory, run `flutter run` for a connected device or `flu
 
 ## Deployment
 
+### Current Production Status (March 2026)
+
+- Frontend URL: `https://conceptra-webapp.vercel.app`
+- Backend API base: `https://conceptra-api.onrender.com/api/v1`
+- Health check: `https://conceptra-api.onrender.com/api/v1/health/ready`
+
+Current production deployment uses:
+- Vercel for Flutter web frontend
+- Render for FastAPI backend (Docker)
+- Supabase for PostgreSQL + Auth
+- Upstash/Redis for caching and rate limiting
+
+Important production auth/callback settings:
+- Supabase Site URL: `https://conceptra-webapp.vercel.app`
+- Supabase Redirect URLs include:
+  - `https://conceptra-webapp.vercel.app/**`
+  - `https://conceptra-webapp-git-master-pavan-kumar-s-projects-a55a3b6a.vercel.app/**`
+  - `http://localhost:3000/**` (optional local dev)
+- Google OAuth authorized redirect URI:
+  - `https://lvgsombxkoedcgznqnge.supabase.co/auth/v1/callback`
+
+Important backend runtime notes:
+- Use asyncpg DB URL format for Render:
+  - `postgresql+asyncpg://...`
+- For Supabase, use pooler host and SSL:
+  - `...pooler.supabase.com:5432/...?...ssl=require`
+- `ALLOWED_ORIGINS` must include production frontend + preview domain.
+
+For full step-by-step deployment and incident fixes, see `deploy.md` section **"11. Production Incident Log (March 21, 2026)"**.
+
 ### Production Docker Compose
 
 For single-server production deployments, use `docker-compose.prod.yml`. This configuration:
