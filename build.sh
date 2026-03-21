@@ -18,15 +18,6 @@ export CI=true
 
 echo "Running pub get..."
 cd frontend
-# Skip downloading the huge Material fonts which causes OOM on Vercel
-cat <<EOF >> pubspec.yaml
-flutter:
-  fonts:
-    - family: MaterialIcons
-      fonts:
-        - src: fonts/MaterialIcons-Regular.ttf
-EOF
-
 flutter pub get
 
 echo "Building frontend..."
