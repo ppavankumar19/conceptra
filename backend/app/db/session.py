@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from collections.abc import AsyncGenerator
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from uuid import uuid4
 
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -70,10 +71,18 @@ def _ensure_asyncpg_pooler_compat(database_url: str) -> str:
     return urlunsplit((parts.scheme, parts.netloc, parts.path, updated_query, parts.fragment))
 
 
-async_engine = create_async_engine(
-    _ensure_asyncpg_pooler_compat(_normalize_database_url(settings.DATABASE_URL)),
-    **_engine_kwargs,
+_normalized_database_url = _ensure_asyncpg_pooler_compat(
+    _normalize_database_url(settings.DATABASE_URL)
 )
+if ".pooler.supabase.com" in _normalized_database_url:
+    # PgBouncer transaction pooling and asyncpg prepared statements can collide.
+    _engine_kwargs["poolclass"] = NullPool
+    _engine_kwargs["connect_args"] = {
+        "statement_cache_size": 0,
+        "prepared_statement_name_func": lambda: f"__asyncpg_{uuid4().hex}__",
+    }
+
+async_engine = create_async_engine(_normalized_database_url, **_engine_kwargs)
 
 # ---------------------------------------------------------------------------
 # Session factory
