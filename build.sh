@@ -6,9 +6,17 @@ git clone https://github.com/flutter/flutter.git -b 3.19.3 /tmp/flutter
 export PATH="$PATH:/tmp/flutter/bin"
 
 echo "Configuring Flutter..."
-flutter config --no-analytics
 git config --global --add safe.directory '*'
 
-echo "Building frontend..."
+# Disable all interactive prompts and analytics that crash root automated builds
+flutter config --no-analytics
+flutter config --no-cli-animations
+export CI=true
+
+echo "Running pub get..."
 cd frontend
-flutter build web --release --dart-define=API_BASE_URL=https://conceptra-api.onrender.com/api/v1
+flutter pub get
+
+echo "Building frontend..."
+# Run the build but tell Flutter not to invoke pub get again to prevent nested pub bugs
+flutter build web --release --no-pub --dart-define=API_BASE_URL=https://conceptra-api.onrender.com/api/v1
