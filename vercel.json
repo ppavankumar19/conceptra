@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && flutter build web --release --dart-define=API_BASE_URL=https://conceptra-api.onrender.com/api/v1",
+  "buildCommand": "git clone https://github.com/flutter/flutter.git -b 3.19.3 /tmp/flutter && export PATH=\"$PATH:/tmp/flutter/bin\" && flutter config --no-analytics && git config --global --add safe.directory '*' && cd frontend && flutter build web --release --dart-define=API_BASE_URL=https://conceptra-api.onrender.com/api/v1",
   "outputDirectory": "frontend/build/web",
-  "installCommand": "git clone https://github.com/flutter/flutter.git -b 3.19.3 /tmp/flutter && PATH=\"$PATH:/tmp/flutter/bin\" flutter config --no-analytics && PATH=\"$PATH:/tmp/flutter/bin\" flutter precache && git config --global --add safe.directory '*'"
+  "installCommand": "echo 'Skipping npm install'"
 }
