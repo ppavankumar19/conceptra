@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-# Flutter tools can get greedy on RAM during extraction and pub get, sometimes
-# hitting Vercel's limits. We will limit concurrency to prevent OOM kills.
 export PUB_MAX_CONCURRENCY=1
 export FLUTTER_ROOT="/tmp/flutter"
 export PUB_CACHE="/tmp/pub_cache"
@@ -14,13 +12,21 @@ export PATH="$PATH:$FLUTTER_ROOT/bin"
 echo "Configuring Flutter..."
 git config --global --add safe.directory '*'
 
-# Disable all interactive prompts and analytics that crash root automated builds
 flutter config --no-analytics
 flutter config --no-cli-animations
 export CI=true
 
 echo "Running pub get..."
 cd frontend
+# Skip downloading the huge Material fonts which causes OOM on Vercel
+cat <<EOF >> pubspec.yaml
+flutter:
+  fonts:
+    - family: MaterialIcons
+      fonts:
+        - src: fonts/MaterialIcons-Regular.ttf
+EOF
+
 flutter pub get
 
 echo "Building frontend..."
