@@ -1,0 +1,8 @@
+{
+  "name": "conceptra",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd frontend && flutter pub get && flutter build web --release --dart-define=API_BASE_URL=https://conceptra-api.onrender.com/api/v1"
+  },
+  "dependencies": {}
+}
