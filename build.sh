@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 export PUB_MAX_CONCURRENCY=1
 export FLUTTER_ROOT="/tmp/flutter"
@@ -7,11 +7,12 @@ export PUB_CACHE="/tmp/pub_cache"
 export FLUTTER_VERSION="${FLUTTER_VERSION:-3.38.4}"
 
 echo "Downloading and installing Flutter ${FLUTTER_VERSION}..."
-curl -L -o /tmp/flutter.tar.xz "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz"
-tar xf /tmp/flutter.tar.xz -C /tmp
+rm -rf "${FLUTTER_ROOT}"
+git clone --depth 1 -b "${FLUTTER_VERSION}" https://github.com/flutter/flutter.git "${FLUTTER_ROOT}"
 export PATH="$PATH:${FLUTTER_ROOT}/bin"
 
 echo "Configuring Flutter..."
+git config --global --add safe.directory "${FLUTTER_ROOT}"
 flutter config --no-analytics
 flutter config --no-cli-animations
 flutter config --enable-web
