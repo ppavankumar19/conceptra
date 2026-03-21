@@ -4,17 +4,19 @@ set -e
 export PUB_MAX_CONCURRENCY=1
 export FLUTTER_ROOT="/tmp/flutter"
 export PUB_CACHE="/tmp/pub_cache"
+export FLUTTER_VERSION="${FLUTTER_VERSION:-3.38.4}"
 
-echo "Downloading and installing Flutter 3.19.3..."
-git clone https://github.com/flutter/flutter.git -b 3.19.3 $FLUTTER_ROOT
-export PATH="$PATH:$FLUTTER_ROOT/bin"
+echo "Downloading and installing Flutter ${FLUTTER_VERSION}..."
+curl -L -o /tmp/flutter.tar.xz "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz"
+tar xf /tmp/flutter.tar.xz -C /tmp
+export PATH="$PATH:${FLUTTER_ROOT}/bin"
 
 echo "Configuring Flutter..."
-git config --global --add safe.directory '*'
-
 flutter config --no-analytics
 flutter config --no-cli-animations
+flutter config --enable-web
 export CI=true
+flutter --version
 
 echo "Running pub get..."
 cd frontend
