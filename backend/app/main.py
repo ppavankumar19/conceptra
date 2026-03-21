@@ -52,6 +52,15 @@ async def lifespan(app: FastAPI):
         if settings.IS_PRODUCTION:
             raise
 
+    # Ensure critical tables exist even when migrations are skipped/blocked
+    # in non-production deploys.
+    try:
+        await _ensure_schema_objects()
+    except Exception as exc:
+        logger.error("schema_ensure_failed", error=str(exc))
+        if settings.IS_PRODUCTION:
+            raise
+
     # Seed initial data
     try:
         await _seed_initial_data()
@@ -84,6 +93,16 @@ def _run_migrations() -> None:
     command.upgrade(alembic_cfg, "head")
     logger.info("migrations_applied")
 
+
+
+async def _ensure_schema_objects() -> None:
+    """Create missing tables as a safety net for fresh/non-migrated DBs."""
+    from app.db.models import Base
+    from app.db.session import async_engine
+
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    logger.info("schema_ensured")
 
 async def _seed_initial_data() -> None:
     """Seed all simulation modules if they don't already exist (checked by title)."""
