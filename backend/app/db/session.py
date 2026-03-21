@@ -11,6 +11,7 @@ Usage inside route handlers / services:
 from __future__ import annotations
 
 from collections.abc import AsyncGenerator
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -51,8 +52,25 @@ def _normalize_database_url(database_url: str) -> str:
     return database_url
 
 
+def _ensure_asyncpg_pooler_compat(database_url: str) -> str:
+    """
+    Supabase transaction pooler (PgBouncer) is incompatible with asyncpg's
+    prepared statement cache by default.
+    """
+    if not database_url.startswith("postgresql+asyncpg://"):
+        return database_url
+    if ".pooler.supabase.com" not in database_url:
+        return database_url
+
+    parts = urlsplit(database_url)
+    query = dict(parse_qsl(parts.query, keep_blank_values=True))
+    query.setdefault("prepared_statement_cache_size", "0")
+    updated_query = urlencode(query)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, updated_query, parts.fragment))
+
+
 async_engine = create_async_engine(
-    _normalize_database_url(settings.DATABASE_URL),
+    _ensure_asyncpg_pooler_compat(_normalize_database_url(settings.DATABASE_URL)),
     **_engine_kwargs,
 )
 
