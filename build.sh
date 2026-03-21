@@ -1,9 +1,15 @@
 #!/bin/bash
 set -e
 
+# Flutter tools can get greedy on RAM during extraction and pub get, sometimes
+# hitting Vercel's limits. We will limit concurrency to prevent OOM kills.
+export PUB_MAX_CONCURRENCY=1
+export FLUTTER_ROOT="/tmp/flutter"
+export PUB_CACHE="/tmp/pub_cache"
+
 echo "Downloading and installing Flutter 3.19.3..."
-git clone https://github.com/flutter/flutter.git -b 3.19.3 /tmp/flutter
-export PATH="$PATH:/tmp/flutter/bin"
+git clone https://github.com/flutter/flutter.git -b 3.19.3 $FLUTTER_ROOT
+export PATH="$PATH:$FLUTTER_ROOT/bin"
 
 echo "Configuring Flutter..."
 git config --global --add safe.directory '*'
