@@ -41,7 +41,12 @@ class Settings(BaseSettings):
     IS_TESTING: bool = False
 
     def get_allowed_origins(self) -> list[str]:
-        return [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
+        origins: list[str] = []
+        for origin in self.ALLOWED_ORIGINS.split(","):
+            normalized = origin.strip().rstrip("/")
+            if normalized and normalized not in origins:
+                origins.append(normalized)
+        return origins
 
     @model_validator(mode="after")
     def set_derived_flags(self) -> "Settings":

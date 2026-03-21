@@ -437,27 +437,20 @@ def create_app() -> FastAPI:
     app.add_middleware(RequestLoggingMiddleware)
 
     # ------------------------------------------------------------------
-    # CORS — added LAST so it wraps everything and is truly outermost.
-    # In development: allow_origin_regex accepts any localhost:<port>.
+    # CORS - added LAST so it wraps everything and is truly outermost.
+    # Always honor ALLOWED_ORIGINS from environment. In non-production,
+    # additionally allow localhost:<port> for developer convenience.
     # ------------------------------------------------------------------
+    cors_kwargs = dict(
+        allow_origins=settings.get_allowed_origins(),
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+        expose_headers=["X-Correlation-ID"],
+    )
     if not settings.IS_PRODUCTION:
-        app.add_middleware(
-            CORSMiddleware,
-            allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-            expose_headers=["X-Correlation-ID"],
-        )
-    else:
-        app.add_middleware(
-            CORSMiddleware,
-            allow_origins=settings.get_allowed_origins(),
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-            expose_headers=["X-Correlation-ID"],
-        )
+        cors_kwargs["allow_origin_regex"] = r"http://(localhost|127\.0\.0\.1)(:\d+)?"
+    app.add_middleware(CORSMiddleware, **cors_kwargs)
 
     # ------------------------------------------------------------------
     # Prometheus instrumentation
