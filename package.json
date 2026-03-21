@@ -2,7 +2,7 @@
   "name": "conceptra",
   "version": "1.0.0",
   "scripts": {
-    "build": "curl -sL https://github.com/flutter/flutter/archive/refs/tags/3.19.3.tar.gz | tar xz && PATH=\"$PATH:$(pwd)/flutter-3.19.3/bin\" && flutter config --no-analytics && flutter pub global activate peanut && cd frontend && flutter pub get && flutter build web --release --dart-define=API_BASE_URL=https://conceptra-api.onrender.com/api/v1"
+    "build": "git clone https://github.com/flutter/flutter.git -b 3.19.3 && export PATH=\"$PATH:$(pwd)/flutter/bin\" && git config --global --add safe.directory '*' && flutter config --no-analytics && cd frontend && flutter build web --release --dart-define=API_BASE_URL=https://conceptra-api.onrender.com/api/v1"
   },
   "dependencies": {}
 }
