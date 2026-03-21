@@ -36,7 +36,25 @@ if settings.IS_TESTING:
     # Tests use aiosqlite – NullPool prevents cross-task connection reuse
     _engine_kwargs["poolclass"] = NullPool
 
-async_engine = create_async_engine(settings.DATABASE_URL, **_engine_kwargs)
+
+def _normalize_database_url(database_url: str) -> str:
+    """
+    Ensure we always use an async SQLAlchemy driver for Postgres.
+    Accepts Supabase-style postgres/postgresql URLs and upgrades them.
+    """
+    if database_url.startswith("postgres://"):
+        return "postgresql+asyncpg://" + database_url[len("postgres://") :]
+    if database_url.startswith("postgresql://"):
+        return "postgresql+asyncpg://" + database_url[len("postgresql://") :]
+    if database_url.startswith("postgresql+psycopg2://"):
+        return "postgresql+asyncpg://" + database_url[len("postgresql+psycopg2://") :]
+    return database_url
+
+
+async_engine = create_async_engine(
+    _normalize_database_url(settings.DATABASE_URL),
+    **_engine_kwargs,
+)
 
 # ---------------------------------------------------------------------------
 # Session factory
